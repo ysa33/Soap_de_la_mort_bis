@@ -1,5 +1,6 @@
-<ion-view view-title="Driver Connection" >
-  <ion-content class="padding">
+<ion-view view-title="Connection" >
+  <ion-content class="padding" ng-controller="DashCtrl">
+  
   <div id="loginForm">
    <label class="item item-input">
     <input type="text" placeholder="Login" ng-model="user.login">
@@ -8,11 +9,11 @@
     <input type="password" placeholder="Password" ng-model="user.password">
   </label>
   </div>
-<p id="erreurLogin" style="display:none;" >Error login or password</p>
-<p style="display:none;" id="erreurConnection">Error connection</p>
-<button class="button button-block button-calm" ng-click="connectionUser(user)">
-  Valid
-</button>
+		<p id="erreurLogin" style="display:none; " >Error login or password</p>
+		<p style="display:none;" id="erreurConnection">Error connection</p>
+		<button class="button button-block button-calm" ng-click="connectionUser(user)">
+  		Valid
+		</button>
 
   </ion-content>
 </ion-view>

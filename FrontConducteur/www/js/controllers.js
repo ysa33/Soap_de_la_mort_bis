@@ -20,14 +20,20 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
               $route.reload();
             }
           } else {
-            console.log('Login or password incorrect');
-            alert("Login or password incorrect")
+            $(document).ready(function(){
+            	if($("#erreurConnection").is(":visible"))
+            		$("#erreurConnection").hide();
+            	if(!$("#erreurLogin").is(":visible"))
+            		$("#erreurLogin").show();
+            });
           }
         };
         var errorGetUser = function () {
-          console.log("Erreur connexion user");
           $(document).ready(function(){
-        	  $("#erreurConnection").show();
+        	  if($("#erreurLogin").is(":visible"))
+        		  $("#erreurLogin").hide();
+        	  if(!$("#erreurConnection").is(":visible"))
+        		  $("#erreurConnection").show();
           });
         };
 
@@ -99,10 +105,141 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
 
 
   })
+  
+  .controller('HelpCtrl', function($scope, $window, $http, socket){
+	    $scope.getVehicle = function () {
+	        $http.get('http://localhost:1337/vehicle?usedBy=' + sessionStorage.userId)
+	          .then(function (vehicle) {
+	            $scope.vehicle = vehicle.data[0];
+	          }, function () {
+	            console.log("Erreur recupértion vehicle");
+	          });
+	      };
 
+	      $scope.newLevelBreakdown = false;
+	      $scope.$watch("newLevelBreakdown", function () {
+	        $scope.getVehicle();
+	      });
 
-  .controller('AccountCtrl', function ($scope, $window, $http, socket) {
+	      $scope.getLevelBreakdown = function () {
+	        $http.get('http://localhost:1337/levelBreakdown').then(
+	          function (data) {
+	            $scope.getlvlBreakdown = data.data;
+	          },
+	          function () {
+	          });
+	      };
 
+	      $scope.getStateVehicle = function () {
+	        $http.get('http://localhost:1337/stateVehicle').then(
+	          function (data) {
+	            $scope.getsv = data.data;
+	          },
+	          function () {
+	          });
+	      };
+	      $scope.getLevelBreakdown();
+	      $scope.getStateVehicle();
+
+	      $scope.getVehicle();
+
+	      $scope.formAskHelp = function (fah) {
+	        //Post in historique
+	        var v = $scope.vehicle;
+	        var successRegisterLogVehicle = function () {
+	          console.log("Etat du vehicule courant mis en base pour historique");
+	          $scope.jsonFah = JSON.parse(fah.levelBreakdown);
+	          $scope.jsonSv = JSON.parse(fah.sv);
+
+	          // modif vehicle with put
+	          var reqPut = {
+	            method: 'PUT',
+	            url: 'http://localhost:1337/vehicle/' + v.id,
+	            headers: {
+	              'Content-Type': undefined
+	            },
+	            data: {
+
+	              levelBreakdown: $scope.jsonFah.id,
+	              stateVehicle: $scope.jsonSv.id
+	            }
+	          };
+
+	          $http(reqPut).then(function () {
+	              console.log("Update ok ");
+	              $scope.newLevelBreakdown = !$scope.newLevelBreakdown;
+	            },
+	            function () {
+	              console.log('Update ko')
+	            });
+
+	          var reqAddBreakHisto = {
+	            method: 'POST',
+	            url: 'http://localhost:1337/logVehicle',
+	            headers: {
+	              'Content-Type': undefined
+	            },
+	            data: {
+	              immatricul: v.immatricul.immatricul,
+	              user: v.usedBy,
+	              stateVehicle: $scope.jsonSv.stateVehicle,
+	              levelBreakdown: $scope.jsonFah.levelBreakdown
+	            }
+	          };
+
+	          $http(reqAddBreakHisto).then(function () {
+	            console.log('add histo break ok')
+	          }, function () {
+	            console.log('add histo break ko')
+	          });
+	        };
+
+	        var errorRegistrerLogVehicle = function () {
+	          console.log("Erreur enregistrement etat en base historique");
+	        };
+
+	        var req = {
+	          method: 'POST',
+	          url: 'http://localhost:1337/logVehicle',
+	          headers: {
+	            'Content-Type': undefined
+	          },
+	          data: {
+	            immatricul: v.immatricul.immatricul,
+	            user: v.usedBy,
+	            stateVehicle: v.stateVehicle.stateVehicle,
+	            levelBreakdown: v.levelBreakdown.levelBreakdown
+	          }
+	        };
+	        $http(req).then(successRegisterLogVehicle, errorRegistrerLogVehicle);
+
+	      };
+
+	      $scope.goOut = function () {
+	        var reqPut = {
+	          method: 'PUT',
+	          url: 'http://localhost:1337/vehicle/' + $scope.vehicle.id,
+	          headers: {
+	            'Content-Type': undefined
+	          },
+	          data: {
+	            usedBy: 0
+	          }
+	        };
+	        $http(reqPut).then(function () {
+	          console.log("go out ok")
+	        }, function () {
+	          console.log("go out ko")
+	        });
+	        $scope.getTfromU = null;
+	        $window.location.href = '#/tab/truck';
+	        $window.location.reload();
+
+	      }
+  })
+
+  .controller('AccountCtrl',function ($scope, $window, $http, socket) {
+	  console.log(socket);
     socket.on('connect', function () {
       setInterval(function () {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -127,163 +264,24 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
                 }
               )
             }, function () {
-              console.log("Erreur recupértion vehicle");
+              console.log("Erreur recupération vehicule");
             });
         });
       }, 5000);
     });
 
-
-    $scope.getVehicle = function () {
-      $http.get('http://localhost:1337/vehicle?usedBy=' + sessionStorage.userId)
-        .then(function (vehicle) {
-          $scope.vehicle = vehicle.data[0];
-        }, function () {
-          console.log("Erreur recupértion vehicle");
-        });
-    };
-
-    $scope.newLevelBreakdown = false;
-    $scope.$watch("newLevelBreakdown", function () {
-      $scope.getVehicle();
-    });
-
-    $scope.getLevelBreakdown = function () {
-      $http.get('http://localhost:1337/levelBreakdown').then(
-        function (data) {
-          $scope.getlvlBreakdown = data.data;
-        },
-        function () {
-        });
-    };
-
-    $scope.getStateVehicle = function () {
-      $http.get('http://localhost:1337/stateVehicle').then(
-        function (data) {
-          $scope.getsv = data.data;
-        },
-        function () {
-        });
-    };
-    $scope.getLevelBreakdown();
-    $scope.getStateVehicle();
-
-    $scope.getVehicle();
-
-
-    $scope.formAskHelp = function (fah) {
-      //Post in historique
-      var v = $scope.vehicle;
-      var successRegisterLogVehicle = function () {
-        console.log("Etat du vehicule courant mis en base pour historique");
-        $scope.jsonFah = JSON.parse(fah.levelBreakdown);
-        $scope.jsonSv = JSON.parse(fah.sv);
-
-
-        // modif vehicle with put
-        var reqPut = {
-          method: 'PUT',
-          url: 'http://localhost:1337/vehicle/' + v.id,
-          headers: {
-            'Content-Type': undefined
-          },
-          data: {
-
-            levelBreakdown: $scope.jsonFah.id,
-            stateVehicle: $scope.jsonSv.id
-          }
-        };
-
-        $http(reqPut).then(function () {
-            console.log("Update ok ");
-            $scope.newLevelBreakdown = !$scope.newLevelBreakdown;
-          },
-          function () {
-            console.log('Update ko')
-          });
-
-
-        var reqAddBreakHisto = {
-          method: 'POST',
-          url: 'http://localhost:1337/logVehicle',
-          headers: {
-            'Content-Type': undefined
-          },
-          data: {
-            immatricul: v.immatricul.immatricul,
-            user: v.usedBy,
-            stateVehicle: $scope.jsonSv.stateVehicle,
-            levelBreakdown: $scope.jsonFah.levelBreakdown
-          }
-        };
-
-        $http(reqAddBreakHisto).then(function () {
-          console.log('add histo break ok')
-        }, function () {
-          console.log('add histo break ko')
-        });
-
-
-      };
-
-
-      var errorRegistrerLogVehicle = function () {
-        console.log("Erreur enregistrement etat en base historique");
-      };
-
-      var req = {
-        method: 'POST',
-        url: 'http://localhost:1337/logVehicle',
-        headers: {
-          'Content-Type': undefined
-        },
-        data: {
-          immatricul: v.immatricul.immatricul,
-          user: v.usedBy,
-          stateVehicle: v.stateVehicle.stateVehicle,
-          levelBreakdown: v.levelBreakdown.levelBreakdown
-        }
-      };
-      $http(req).then(successRegisterLogVehicle, errorRegistrerLogVehicle);
-
-    };
-
-
-    $scope.goOut = function () {
-      var reqPut = {
-        method: 'PUT',
-        url: 'http://localhost:1337/vehicle/' + $scope.vehicle.id,
-        headers: {
-          'Content-Type': undefined
-        },
-        data: {
-          usedBy: 0
-        }
-      };
-      $http(reqPut).then(function () {
-        console.log("go out ok")
-      }, function () {
-        console.log("go out ko")
-      });
-      $scope.getTfromU = null;
-      $window.location.href = '#/tab/truck';
-      $window.location.reload();
-
-    }
-
-
   })
 
-  .
-  controller('GeoCtrl', function () {
-
+  
+  .controller('GeoCtrl', function ($scope) {
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
     // To listen for when this page is active (for example, to refresh data),
     // listen for the $ionicView.enter event:
     //
-    $scope.$on('$ionicView.enter', function(e) {
-    });
+	  $scope.$on("$ionicView.enter", function(e) {
+
+	    });
 
   })
 ;
