@@ -68,7 +68,17 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers','n
         }
       }
     })
-
+    
+    .state('tab.help', {
+    url: '/help',
+    views: {
+      'tab-help': {
+        templateUrl: 'templates/tab-help.html',
+        controller: 'GeoCtrl'
+      }
+    }
+    })
+  
   .state('tab.account', {
     url: '/account',
     views: {

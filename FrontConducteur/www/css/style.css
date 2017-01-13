@@ -1,1 +1,12 @@
 /* Empty. Add your own CSS if you like */
+
+p.title{
+    margin-left: 10px;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+#helpFrom, #userAccount {
+	margin-top:100px;
+	top:0;
+}

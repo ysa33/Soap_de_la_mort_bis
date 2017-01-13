@@ -21,10 +21,14 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
             }
           } else {
             console.log('Login or password incorrect');
+            alert("Login or password incorrect")
           }
         };
         var errorGetUser = function () {
           console.log("Erreur connexion user");
+          $(document).ready(function(){
+        	  $("#erreurConnection").show();
+          });
         };
 
         $http.get('http://localhost:1337/user?login=' + user.login)
@@ -278,8 +282,8 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
     // To listen for when this page is active (for example, to refresh data),
     // listen for the $ionicView.enter event:
     //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
+    $scope.$on('$ionicView.enter', function(e) {
+    });
 
   })
 ;

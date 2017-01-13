@@ -1,52 +1,26 @@
-<ion-view view-title="Need help" >
+<ion-view view-title="Your account" >
 
   <ion-content ng-controller="AccountCtrl">
 
 
 <div class="list">
 
-	Your informations:
-	<ul>
-		<li>{{user.firstname}} {{user.lastname}}
-		</li>
-		<li>Immatricul : {{vehicle.immatricul.immatricul}}
-		</li>
-		<li>Geolocation : {{vehicle.geolocalisation.latitude}} || {{vehicle.geolocalisation.longitude}}
-		</li>
-		<li>Level breakdown : {{vehicle.levelBreakdown.levelBreakdown}}
-		</li>
-		<li>State vehicule : {{vehicle.stateVehicle.stateVehicle}}
-		</li>
-	</ul>
-
-
-    <form id="formAskHelp">
-		<label class="item item-input item-select">
-			<div class="input-label">
-				Level breakdown
-			</div>
-			<select ng-model="fah.levelBreakdown "  >
-				<option ng-repeat="l in getlvlBreakdown" value="{{l}}">{{l.levelBreakdown}}</option>
-			</select>
-		</label>
-		<label class="item item-input item-select">
-			<div class="input-label">
-				State vehicle
-			</div>
-			<select ng-model="fah.sv">
-				<option ng-repeat="sv in getsv" value="{{sv}}">{{sv.stateVehicle}}</option>
-			</select>
-
-		</label>
-	</form>
-
-
+	<div id="userAccount">
+		<p class="title">Your informations:</p>
+		<ul class="list-group">
+			<li class="list-group-item">{{user.firstname}} {{user.lastname}}
+			</li>
+			<li class="list-group-item">Immatricul : {{vehicle.immatricul.immatricul}}
+			</li>
+			<li class="list-group-item">Geolocation : {{vehicle.geolocalisation.latitude}} || {{vehicle.geolocalisation.longitude}}
+			</li>
+			<li class="list-group-item">Level breakdown : {{vehicle.levelBreakdown.levelBreakdown}}
+			</li>
+			<li class="list-group-item">State vehicule : {{vehicle.stateVehicle.stateVehicle}}
+			</li>
+		</ul>
+	</div>
 </div>
-
-
-<button class="button button-full button-calm" type="submit" ng-click="formAskHelp(fah)" >
-Update
-</button>
 
 <button class="button button-full button-positive" ng-controller="AccountCtrl" ng-click="goOut()">
 Go out
