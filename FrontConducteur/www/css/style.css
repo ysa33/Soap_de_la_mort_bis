@@ -10,3 +10,52 @@ p.title{
 	margin-top:100px;
 	top:0;
 }
+
+#erreurLogin, #erreurConnection {
+	color:red;
+}
+
+.instruction {
+	font-weight:bold;
+	font-size: large;
+	margin-top: 30px;
+}
+
+.bar div.title.title-center {
+	    background-color: #602cf9;
+    color: white;
+    font-size: 35px;
+    height: 50px;
+    font-weight: bold;
+}
+
+.bar{
+	border:none;
+}
+
+.trucks{
+    margin-top: 30px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.trucks p {
+	font-weight:bold;
+	font-size:17px;
+}
+
+.trucks th{
+	font-weight:bold;
+}
+
+.tab-nav.tabs{
+	background-color: lightblue;
+}
+
+$.tab-nav.tabs > .connection{
+	display:none;
+}
+
+.tab {
+	display:none;
+}

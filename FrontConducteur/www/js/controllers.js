@@ -53,7 +53,7 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
     }])
 
   .controller('TruckCtrl', function ($scope, $http, $route, $window) {
-    $scope.getDisponibilityTruck = function () {
+    $scope.getDisponibilityTruck = function (){
       //stateVehicle 4 = stop.
       $http.get('http://localhost:1337/vehicle?usedBy=0&stateVehicle=4')
         .then(
