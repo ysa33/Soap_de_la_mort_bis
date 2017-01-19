@@ -55,7 +55,7 @@
                 Action
             </th>
             <tr ng-repeat="v in vehicle" ng-click="gotoMap(v.geolocalisation.latitude,v.geolocalisation.longitude)"
-                ng-show="v.usedBy.accountType=='driver'">
+                ng-show="v.usedBy.accountType=='driver' || v.usedBy.accountType=='supervisor'">
                 <td>
                     {{v.id}}
                 </td>
