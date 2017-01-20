@@ -19,8 +19,8 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
              console.log(sessionStorage.userLogin);
              console.log(sessionStorage.userId);
               console.log("User connected");
-              $(".connection").css("display", "block");
-              $(".mission").css("display","none");
+              $(".connection").css("display", "none");
+              $(".mission").css("display","block");
               $window.location.href = '#/tab/info';
               $route.reload();
             }
@@ -36,7 +36,15 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
 
         $http.get('http://localhost:1337/user?login='+user.login)
         .then(successgetUser,errorGetUser);
-
+        
+        $scope.deconnection = function () {
+            console.log("deconnection");
+            sessionStorage.clear();
+            $(".mission").css("display", "none");
+            $(".connection").css("display", "block");
+            $window.location.href = '#/tab/dash';
+            $route.reload();
+          };
     }
 
 
@@ -123,13 +131,8 @@ $scope.chooseThisTruck = function(ac){
       });
 
     }
-  $scope.getAction();
-
-
-
-
-
-     
+  $scope.getAction();     
 })
 
+ 
 ;
