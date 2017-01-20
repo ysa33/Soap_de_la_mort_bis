@@ -1,33 +1,35 @@
-<ion-view view-title="Your account" cache-view="false">
- 
-  <ion-content ng-controller="AccountCtrl">
+<ion-view view-title="Votre compte" cache-view="false" >
+
+  <ion-content ng-controller="AccountCtrl" >
 
 <div class="list">
 
 	<div id="userAccount">
-		<p class="title">Your informations:</p>
+		<p class="title">Informations:</p>
 		<ul class="list-group">
-			<li class="list-group-item">{{user.firstname}} {{user.lastname}}
+			<li class="list-group-item">Nom : {{user.firstname}} {{user.lastname}}
 			</li>
-			<li class="list-group-item">Immatricul : {{vehicle.immatricul.immatricul}}
+			<li class="list-group-item">Metier : {{user.accountType}}
 			</li>
-			<li class="list-group-item">Geolocation : {{vehicle.geolocalisation.latitude}} || {{vehicle.geolocalisation.longitude}}
+			<li class="list-group-item">Immatriculation : {{vehicle.immatricul.immatricul}}
 			</li>
-			<li class="list-group-item">Level breakdown : {{vehicle.levelBreakdown.levelBreakdown}}
+			<li class="list-group-item">Geolocalisation : {{vehicle.geolocalisation.latitude}} || {{vehicle.geolocalisation.longitude}}
 			</li>
-			<li class="list-group-item">State vehicule : {{vehicle.stateVehicle.stateVehicle}}
+			<li class="list-group-item">Niveau de panne : {{vehicle.levelBreakdown.levelBreakdown}}
+			</li>
+			<li class="list-group-item"> Etat de vehicule: {{vehicle.stateVehicle.stateVehicle}}
 			</li>
 		</ul>
 	</div>
 </div>
 
 <button class="button button-full button-positive" ng-controller="AccountCtrl" ng-click="goOut()">
-Go out
+Changer de vehicule
 </button>
 
 
 <button class="button button-full button-assertive" ng-controller="DashCtrl" ng-click="deconnection()">
-  Disconnect
+  Deconnexion
 </button>
   </ion-content>
 </ion-view>

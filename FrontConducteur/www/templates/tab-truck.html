@@ -1,23 +1,23 @@
-<ion-view view-title="Truck">
-  <ion-content ng-controller="TruckCtrl">
+<ion-view view-title="Camion" >
+  <ion-content ng-controller="TruckCtrl" >
       
     <ion-list ng-if="!getTfromU">
-    <h2>Choose a truck (tap on)</h2>
+    <h2>Choisir un vehicule</h2>
       <ion-item ng-repeat="dt in getDispoTruck" ng-click="chooseTruck(dt)">
       {{dt.immatricul.immatricul}} | {{dt.stateVehicle.stateVehicle}}
       </ion-item>
     </ion-list>
-    <div ng-if="getTfromU">
-      You are in this truck : 
-      <table class="table">
+    <div ng-if="getTfromU" class="trucks">
+      <p>Tu es dans le véhicule : </p>
+      <table class="table  table-stripped">
         <th>
-          Id vehicle
+          Id vehicule
         </th>
         <th>
-          Immatricul
+          Immatriculation
         </th>
         <th>
-          State vehicle
+          Etat du vehicule
         </th>
         <th>
           Geolocalisation
@@ -42,3 +42,4 @@
 
   </ion-content>
 </ion-view>
+>>>>>>> Stashed changes

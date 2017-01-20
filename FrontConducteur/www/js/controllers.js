@@ -1,7 +1,8 @@
 angular.module('starter.controllers', ['ngToast', 'ngRoute'])
 
-  .controller('DashCtrl', ['$scope', '$interval', '$http', 'ngToast', '$window', '$route',
-    function ($scope, $interval, $http, ngToast, $window, $route) {
+  .controller('DashCtrl', ['$scope', '$interval', '$http', 'ngToast', '$window', '$route', '$state',
+    function ($scope, $interval, $http, ngToast, $window, $route, $state) {
+	  
       if (!sessionStorage.userId) {
         $window.location.href = '#/tab/dash';
         $route.reload();
@@ -16,6 +17,8 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
               sessionStorage.userFirstname = userBdd.data[0].firstname;
               sessionStorage.userLastname = userBdd.data[0].lastname;
               console.log("User connected");
+              $(".tab").css("display", "block");
+              $(".connection").css("display", "none");
               $window.location.href = '#/tab/account';
               $route.reload();
             }
@@ -46,6 +49,8 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
       $scope.deconnection = function () {
         console.log("deconnection");
         sessionStorage.clear();
+        $(".tab").css("display", "none");
+        $(".connection").css("display", "block");
         $window.location.href = '#/tab/dash';
         $route.reload();
       };
@@ -53,7 +58,7 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
     }])
 
   .controller('TruckCtrl', function ($scope, $http, $route, $window) {
-    $scope.getDisponibilityTruck = function (){
+    $scope.getDisponibilityTruck = function () {
       //stateVehicle 4 = stop.
       $http.get('http://localhost:1337/vehicle?usedBy=0&stateVehicle=4')
         .then(
@@ -138,7 +143,6 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
 	          function () {
 	          });
 	      };
-	      $scope.getLevelBreakdown();
 	      $scope.getStateVehicle();
 
 	      $scope.getVehicle();
@@ -238,6 +242,7 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
 	      }
   })
 
+  
   .controller('AccountCtrl',function ($scope, $window, $http, socket) {
 	  console.log(socket);
     socket.on('connect', function () {
