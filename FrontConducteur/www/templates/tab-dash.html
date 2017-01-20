@@ -1,18 +1,18 @@
-<ion-view view-title="Connection">
+<ion-view view-title="Connection - Conducteur">
   <ion-content class="padding" ng-controller="DashCtrl">
   
   <div id="loginForm">
    <label class="item item-input">
-    <input type="text" placeholder="Login" ng-model="user.login">
+    <input type="text" placeholder="Nom d'utilisateur" ng-model="user.login">
   </label>
   <label class="item item-input">
-    <input type="password" placeholder="Password" ng-model="user.password">
+    <input type="password" placeholder="Mot de passe" ng-model="user.password">
   </label>
   </div>
-		<p id="erreurLogin" style="display:none; " >Error login or password</p>
-		<p style="display:none;" id="erreurConnection">Error connection</p>
+		<p id="erreurLogin" style="display:none; " >Erreur de nom d'utilisateur ou de mot de passe</p>
+		<p style="display:none;" id="erreurConnection">Erreur de connection</p>
 		<button class="button button-block button-calm" ng-click="connectionUser(user)">
-  		Valid
+  		Connection
 		</button>
 
   </ion-content>

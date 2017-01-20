@@ -1,10 +1,10 @@
-<ion-view view-title="Info - Choose a truck to repair">
+<ion-view view-title="Mission - Choisis un camion à réparer">
 <ion-content>
 
 <ul class="list">
 	<li class="item" ng-repeat="ac in actionGet" ng-click="showVehicleOnMap(ac.vehicle)">
 		{{ac.vehicle.stringimmatricul}}
-<button ng-show="acceptTruck" ng-click="chooseThisTruck({{ac}})">Choose this truck</button>
+<button ng-show="acceptTruck" ng-click="chooseThisTruck({{ac}})">Choisi une mission</button>
 
 	</li>
 

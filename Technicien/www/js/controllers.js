@@ -19,6 +19,8 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
              console.log(sessionStorage.userLogin);
              console.log(sessionStorage.userId);
               console.log("User connected");
+              $(".connection").css("display", "block");
+              $(".mission").css("display","none");
               $window.location.href = '#/tab/info';
               $route.reload();
             }
