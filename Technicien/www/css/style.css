@@ -2,3 +2,29 @@
 .mission {
 	display:none;
 }
+
+ion-content.padding.scroll-content.ionic-scroll.has-tabs {
+	margin-top:20px;
+}
+
+p.title{
+    margin-left: 10px;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+.bar div.title.title-center {
+    background-color: #602cf9;
+    color: white;
+    font-size: 35px;
+    height: 50px;
+    font-weight: bold;
+}
+
+.bar{
+	border:none;
+}
+
+.tab-nav.tabs{
+	background-color: lightblue;
+}
